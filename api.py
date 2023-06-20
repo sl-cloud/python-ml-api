@@ -39,6 +39,7 @@ class PredictionService:
 
 class AuthenticationService:
     SECRET_KEY = os.getenv("SECRET_KEY")
+    USERNAME = os.getenv("USERNAME")
     ALGORITHM = "HS256"
 
     @staticmethod
@@ -46,7 +47,7 @@ class AuthenticationService:
         try:
             payload = jwt.decode(token, AuthenticationService.SECRET_KEY, algorithms=[AuthenticationService.ALGORITHM])
             username: str = payload.get("sub")
-            if username != "mlApiCaller":
+            if username != AuthenticationService.USERNAME:
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,
                     detail="Could not validate credentials for user: " + username,
