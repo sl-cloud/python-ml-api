@@ -4,14 +4,15 @@ import pandas as pd
 import pickle
 import os
 
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
+from dotenv import dotenv_values
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from typing import Any, List
 
 # Load environment variables from .env file
-load_dotenv()
+#load_dotenv()
 
 class PredictionService:
     @staticmethod
@@ -38,8 +39,10 @@ class PredictionService:
 
 
 class AuthenticationService:
-    SECRET_KEY = os.getenv("SECRET_KEY")
-    USERNAME = os.getenv("USERNAME")
+    #SECRET_KEY = os.getenv("SECRET_KEY")
+    env_vars = dotenv_values(".env")
+    USERNAME = env_vars.get("USERNAME")
+    SECRET_KEY = env_vars.get("SECRET_KEY")
     ALGORITHM = "HS256"
 
     @staticmethod
